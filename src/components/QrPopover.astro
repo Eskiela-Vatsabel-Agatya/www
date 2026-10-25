@@ -1,0 +1,6 @@
+import QRCode from 'qrcode';
+const {href,label='Lihat di HP Anda'}=Astro.props;
+const svg=await QRCode.toString(href,{type:'svg',errorCorrectionLevel:'Q',margin:4,color:{dark:'#000000',light:'#ffffff'}});
+---
+<details class="qr-popover"><summary class="button button-secondary">{label}</summary><div class="qr-panel" set:html={svg}/><span>Buka kamera ponsel Anda untuk memindai.</span></details>
+<style>.qr-popover{position:relative}.qr-panel{position:absolute;z-index:3;right:0;bottom:calc(100% + 12px);padding:12px;background:#fff;border:1px solid var(--border-control);border-radius:var(--r-md);transform-origin:bottom right}.qr-panel :global(svg){width:180px;height:180px}.qr-popover span{display:block;max-width:190px;font-size:13px}</style>

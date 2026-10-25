@@ -1,0 +1,11 @@
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ModelStage from '../../../components/ModelStage.astro';
+import QrPopover from '../../../components/QrPopover.astro';
+import {products} from '../../../data/products';
+import {SITE_URL} from '../../../data/site';
+import {waLink} from '../../../lib/whatsapp';
+export function getStaticPaths(){return products.map(product=>({params:{slug:product.slug},props:{product}}))}
+const {product}=Astro.props;const message=`Halo LunAR, saya tertarik dengan demo AR ${product.name}.`;
+---
+<BaseLayout title={`${product.name} — LunAR`} description={product.description} path={`/portofolio/${product.slug}/`}><main id="konten" class="wrap"><p class="product-meta"><a href="/portofolio/">Portofolio</a> / {product.category}</p><section class="product-detail"><div><ModelStage product={product}/></div><div><p class="eyebrow">Katalog interaktif · Grizelle Souvenir</p><h1>{product.name}</h1><p>{product.description}</p><p>Katalog produk ini dibuat LunAR untuk Grizelle Souvenir.</p><div class="hero-actions"><a class="button button-primary" href={waLink(message)}>Tanyakan Produk Ini</a><QrPopover href={`${SITE_URL}/portofolio/${product.slug}/`}/></div><p><a href="/portofolio/">← Kembali ke portofolio</a></p></div></section></main></BaseLayout>
+

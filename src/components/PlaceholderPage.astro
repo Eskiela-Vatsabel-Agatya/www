@@ -1,0 +1,4 @@
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const {title,lead}=Astro.props;
+---
+<BaseLayout title={`${title} — LunAR`} path={Astro.url.pathname}><main id="konten" class="wrap placeholder-page"><p class="eyebrow">LunAR · Surakarta</p><h1>{title}</h1><p>{lead}</p><p class="product-meta">Halaman ini sedang disiapkan.</p><a href="/">Kembali ke Beranda →</a></main></BaseLayout>

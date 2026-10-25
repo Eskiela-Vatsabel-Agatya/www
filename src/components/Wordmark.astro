@@ -1,0 +1,6 @@
+import horizontal from '../assets/brand/lunar-logo-horizontal.svg?raw';
+import stacked from '../assets/brand/lunar-logo-stacked.svg?raw';
+const {variant='horizontal'}=Astro.props;const svg=variant==='stacked'?stacked:horizontal;
+---
+<span class="wordmark" set:html={svg}/>
+<style>.wordmark{display:block;width:100%;max-width:208px}.wordmark :global(svg){display:block;width:100%;height:auto}</style>

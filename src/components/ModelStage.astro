@@ -1,0 +1,13 @@
+import { R2 } from '../lib/r2';
+const {product}=Astro.props;
+const poster=product.photo ?? '/images/chair-poster.svg';
+const url=R2(product.model.glb); const usdz=R2(product.model.usdz);
+---
+<div class="media-panel" data-model-stage data-state="idle"><img class="stage-poster" src={poster} alt={product.photo?`Foto ${product.name}`:`TEMP ilustrasi netral sebagai poster ${product.name}`}/><model-viewer src={url} ios-src={usdz} ar ar-modes="scene-viewer webxr quick-look" camera-controls disable-zoom touch-action="pan-y" shadow-intensity="0.5" alt={`Pratinjau 3D ${product.name}`} reveal="manual" ar-placement={product.arPlacement} ar-scale={product.arPlacement ? 'fixed' : undefined}><button slot="ar-button" class="model-ar-action" hidden>Lihat di Ruangan Anda</button></model-viewer><p class="model-status" aria-live="polite"></p><button class="button button-secondary model-button" type="button">Muat Tampilan 3D</button></div>
+<script>
+const root=document.querySelector('[data-model-stage]');if(root){const viewer=root.querySelector('model-viewer');const button=root.querySelector('.model-button');const poster=root.querySelector('.stage-poster');const status=root.querySelector('.model-status');let timer;const constrained=()=>navigator.connection?.saveData||['slow-2g','2g'].includes(navigator.connection?.effectiveType)||matchMedia('(prefers-reduced-data: reduce)').matches;const load=async()=>{root.dataset.state='loading';status.textContent='Menyiapkan pratinjau 3D…';button.disabled=true;try{await import('@google/model-viewer');timer=setTimeout(()=>{root.dataset.state='failed';if(poster)poster.hidden=false;button.disabled=false;status.textContent='';},15000);viewer.addEventListener('load',()=>{clearTimeout(timer);viewer.hidden=false;if(poster)poster.hidden=true;viewer.dismissPoster();root.dataset.state='ready';button.hidden=true;const arAction=viewer.querySelector('.model-ar-action');if(arAction)arAction.hidden=false;status.textContent='Pratinjau 3D siap';},{once:true});viewer.addEventListener('error',()=>{clearTimeout(timer);root.dataset.state='failed';if(poster)poster.hidden=false;button.disabled=false;status.textContent='';},{once:true});viewer.dismissPoster();}catch{root.dataset.state='failed';if(poster)poster.hidden=false;button.disabled=false;status.textContent='';}};if(constrained()){root.dataset.state='constrained';status.textContent='Tampilan 3D dimuat sesuai permintaan Anda.'}else{const io=new IntersectionObserver((entries)=>{if(entries[0].isIntersecting){io.disconnect();load()}},{rootMargin:'100px'});io.observe(root)}button.addEventListener('click',load)}
+</script>
+
+
+
+

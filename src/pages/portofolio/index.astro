@@ -1,0 +1,4 @@
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {products} from '../../data/products';
+---
+<BaseLayout title="Portofolio — LunAR" path="/portofolio/"><main id="konten" class="wrap placeholder-page"><p class="eyebrow">Portofolio</p><h1>Produk yang Bisa Dijelajahi</h1><p>Contoh katalog interaktif yang dibangun untuk Grizelle Souvenir. Fokus LunAR sekarang adalah furnitur, dan Kursi Gitar menjadi awalnya.</p><div class="product-rail">{products.map(p=><a class="product-card" href={`/portofolio/${p.slug}/`}>{p.photo?<img src={p.photo} alt={`Foto ${p.name}`}/>:<span class="product-placeholder">TEMP · poster Kursi Gitar</span>}<div><span class="product-meta">{p.category}</span><h3>{p.name}</h3><span>Lihat produk →</span></div></a>)}</div></main></BaseLayout>
