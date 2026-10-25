@@ -1,3 +1,4 @@
+---
 import QRCode from 'qrcode';
 const {href,label='Lihat di HP Anda'}=Astro.props;
 const svg=await QRCode.toString(href,{type:'svg',errorCorrectionLevel:'Q',margin:4,color:{dark:'#000000',light:'#ffffff'}});
