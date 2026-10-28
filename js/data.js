@@ -175,4 +175,22 @@ const products = [
       { name: 'Kemas Mika + Pita', priceText: '+Rp 3500' },
     ],
   },
+    {
+    id: 'R001',
+    name: 'Living Room',
+    category: 'Room',
+    bestSeller: true,
+    hasAR: true,
+    description: 'A really cozy living room',
+    moq: 'Hubungi kami',
+    material: '',
+    dimensions: '',
+    media: { modelGlb: R2('living_room.glb'), modelUsdz: R2('living_room.usdz'), videoId: null },
+    variants: [
+      { name: 'Produk', price: 100000000, img: 'assets/products/living_room.jpeg', tiers: [
+      ]},
+    ],
+    addOns: [
+    ],
+  }
 ];
