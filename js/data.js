@@ -192,5 +192,26 @@ const products = [
     ],
     addOns: [
     ],
+  },
+
+    {
+    id: 'S001',
+    name: 'Tiku Wooden Couch',
+    category: 'Sofa',
+    bestSeller: true,
+    hasAR: true,
+    description: 'Rp3.833.000 – Rp7.613.000',
+    moq: 'Hubungi kami',
+    material: '',
+    dimensions: '',
+    media: { modelGlb: R2('sofa.glb'), modelUsdz: R2('sofa.usdz'), videoId: null },
+    variants: [
+      { name: 'Produk', price: 3833000, img: 'assets/products/sofanaenamu.jpg', tiers: [
+        { qty: 1, price: 3833000 },
+        { qty: 1, price: 7613000 },
+      ]},
+    ],
+    addOns: [
+    ],
   }
 ];
