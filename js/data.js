@@ -213,5 +213,26 @@ const products = [
     ],
     addOns: [
     ],
+  },
+
+      {
+    id: 'S002',
+    name: 'Millionaire Fancy Sofa',
+    category: 'Sofa',
+    bestSeller: true,
+    hasAR: true,
+    description: 'Fancy',
+    moq: 'Hubungi kami',
+    material: '',
+    dimensions: '',
+    media: { modelGlb: R2('sofa panjang-ar.glb'), modelUsdz: R2('sofa panjang-ar.usdz'), videoId: null },
+    variants: [
+      { name: 'Produk', price: 4000000, img: 'assets/products/sofa panjang-ar.jpg', tiers: [
+        { qty: 1, price: 4000000}
+      ]},
+    ],
+    addOns: [
+    ],
   }
+
 ];
