@@ -1,0 +1,30 @@
+/* The still composition is complete by default; motion only adds a restrained drift. */
+.hero{isolation:isolate}
+.hero-ribbons{position:absolute;inset:-2% -6% 0 -6%;z-index:0;overflow:hidden;pointer-events:none;opacity:.72}
+.hero-ribbons svg{display:block;width:100%;height:100%;overflow:visible}
+.ribbon-line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:34;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center}
+.ribbon-line-blue{stroke:var(--blue-600);opacity:.78}
+.ribbon-line-navy{stroke:var(--ink);opacity:.76;stroke-width:20}
+.ribbon-line-far{stroke-width:16;opacity:.2}
+.hero-copy{z-index:2}
+.room{z-index:1;border:0;box-shadow:10px 14px 34px rgba(11,18,32,.12),-8px -8px 28px rgba(255,255,255,.72)}
+.room-label{position:absolute;z-index:3;top:18px;left:18px;padding:8px 12px;border-radius:999px;background:rgba(246,248,252,.88);color:var(--ink);font:500 12px var(--mono);box-shadow:inset 2px 2px 5px rgba(11,18,32,.08),inset -2px -2px 5px rgba(255,255,255,.8),4px 6px 16px rgba(11,18,32,.12);backdrop-filter:blur(8px)}
+.room .hero-model-stage{position:absolute;inset:0;z-index:2;min-height:0;border-radius:inherit;background:transparent;overflow:visible;box-shadow:inset 10px 12px 30px rgba(11,18,32,.1),inset -10px -10px 30px rgba(255,255,255,.16)}
+.room .hero-model-stage .stage-poster{inset:18% 19% 19%;width:62%;height:63%;object-fit:contain;padding:10px;border-radius:24px;opacity:.92;box-shadow:8px 10px 26px rgba(11,18,32,.16),-6px -6px 18px rgba(255,255,255,.32)}
+.room .hero-model-stage model-viewer{border-radius:inherit}
+.room .hero-model-stage .model-button{right:20px;bottom:62px;z-index:3;background:var(--surface-raised);box-shadow:5px 7px 18px rgba(11,18,32,.16),-4px -4px 12px rgba(255,255,255,.5)}
+.room .hero-model-stage .model-status{left:20px;bottom:64px;z-index:3;max-width:45%;padding:6px 10px;border-radius:8px;background:rgba(246,248,252,.9);font-size:13px}
+.room-caption{z-index:4;align-items:center;padding:8px 12px;border-radius:12px;background:rgba(246,248,252,.91);box-shadow:5px 7px 18px rgba(11,18,32,.15),-4px -4px 12px rgba(255,255,255,.52);backdrop-filter:blur(8px)}
+.room-caption a{white-space:nowrap}
+.steps-with-photo{display:grid;grid-template-columns:1fr .82fr;gap:clamp(32px,6vw,76px);align-items:center}
+.steps-with-photo .steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 28px}
+.steps-photo{position:relative;margin:0;overflow:hidden;aspect-ratio:4/5;border-radius:32% 32% 16px 16px;background:var(--surface-band);box-shadow:9px 12px 28px rgba(11,18,32,.14),-7px -7px 20px rgba(255,255,255,.72)}
+.steps-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.steps-photo figcaption{position:absolute;left:16px;right:16px;bottom:16px;padding:10px 12px;border-radius:10px;background:rgba(246,248,252,.92);color:var(--ink);font-size:13px;box-shadow:4px 6px 15px rgba(11,18,32,.13);backdrop-filter:blur(8px)}
+.motion-ready .ribbon-line-blue{animation:ribbon-drift 14s ease-in-out infinite alternate}
+.motion-ready .ribbon-line-navy{animation:ribbon-drift 18s ease-in-out -4s infinite alternate-reverse}
+.motion-ready .ribbon-line-far{animation:ribbon-drift 22s ease-in-out -7s infinite alternate}
+@keyframes ribbon-drift{from{transform:translate3d(-8px,6px,0)}to{transform:translate3d(10px,-9px,0)}}
+@media(max-width:850px){.hero-ribbons{inset:-2% -20% 0 -20%;opacity:.54}.room{box-shadow:8px 10px 26px rgba(11,18,32,.12),-6px -6px 20px rgba(255,255,255,.62)}.steps-with-photo{grid-template-columns:1fr .8fr;gap:24px}}
+@media(max-width:600px){.hero-ribbons{inset:2% -48% 0 -35%;opacity:.48}.room-label{top:14px;left:14px}.room .hero-model-stage .stage-poster{inset:20% 13% 21%;width:74%;height:59%}.room .hero-model-stage .model-button{right:12px;bottom:64px;padding:10px 14px;min-height:44px}.room .hero-model-stage .model-status{left:12px;bottom:64px;max-width:42%;padding:5px 8px;font-size:11px}.room-caption{left:12px;right:12px;bottom:12px;font-size:12px;gap:7px}.room-caption>span{max-width:36%;line-height:1.25}.steps-with-photo{grid-template-columns:1fr}.steps-with-photo .steps{grid-template-columns:1fr;gap:18px}.steps-photo{max-height:520px;aspect-ratio:4/3;border-radius:88px 88px 16px 16px}}
+@media(prefers-reduced-motion:reduce){.motion-ready .ribbon-line-blue,.motion-ready .ribbon-line-navy,.motion-ready .ribbon-line-far{animation:none}}

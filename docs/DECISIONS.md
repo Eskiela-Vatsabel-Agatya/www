@@ -5,7 +5,7 @@
 | D1 | Astro static, TypeScript, build-time npm only | `output: static`, strict TS, pinned packages, no adapter. |
 | D2 | Git-linked deployment | Workers Builds from Git; production branch `main`. |
 | D3 | Cloudflare Workers static assets | `wrangler.jsonc` contains only name, date, and dist assets configuration. |
-| D4 | Fonts 2+1 | Outfit (display), Plus Jakarta Sans (body), DM Mono (metadata); logged as D20. |
+| D4 | Fonts 2+1 maximum | One self-hosted Plus Jakarta Sans family for display and body; DM Mono for small metadata and step numbers. |
 | D5 | AI imagery until real photography exists | Existing supplied imagery is TEMP; swap by role. |
 | D6 | No browser or visual checks by builder; no zip | Human reviews visuals/devices. |
 | D7 | Bahasa Indonesia only | `lang=id`, formal-warm Anda. |
@@ -21,10 +21,11 @@
 | D17 | H0 blue selection pending | Option A (`#2A57FF`) used meanwhile; B report in swatch table. |
 | D18 | One accent colour | Blue only; semantic green for WhatsApp. |
 | D19 | Furniture is the focus, evidence stated honestly | Kursi Gitar is the furniture example; lifestyle catalog is Grizelle. |
-| D20 | Font pairing | Outfit, Plus Jakarta Sans, DM Mono; geometric display complements the wordmark while retaining readable Indonesian body text. |
+| D20 | Font pairing | Plus Jakarta Sans for display and body, with DM Mono limited to metadata and step numbers. A single family gives the landing page a quieter, more coherent voice. |
 
 ## Appended by builder
 
 - The actual `legacy/js/data.js` contains nine rows: seven company-listed products plus two bowl variants; it also omits Kursi Gitar. The plan/company file's seven-row catalog is used. No unsupported rows are shown.
 - The supplied logo SVGs are copied with C2PA metadata removed. Option A keeps the supplied mark colours for now.
 - 2026-10-25: initialized the provided legacy folder as a local Git repository and created `phase-1`; no Git history was present.
+- 2026-11-12: after the human's visual feedback, removed Outfit and use Plus Jakarta Sans for both headings and body. Added a low-motion SVG ribbon treatment in CSS; it is static by default and loops only while visible and motion is allowed.
