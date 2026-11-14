@@ -42,6 +42,13 @@
   var selectedAddOns = [];
   var lastClickedAddonWithImage = null;
 
+  // Android fallback (Nov 2026): a Google app update broke Scene Viewer on some
+  // phones (black screen, then back to the page). Scene Viewer stays first;
+  // this flag lets a visitor switch to in-browser AR (WebXR) instead.
+  // Revert note: delete this flag and the fallback button once Google fixes it.
+  var isAndroid = /Android/i.test(navigator.userAgent);
+  var useBrowserAR = false;
+
   function formatRp(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
   function currentVariant() { return product.variants[activeVariantIndex]; }
 
@@ -102,18 +109,35 @@
       mv.setAttribute('ios-src', media.modelUsdz || '');
       mv.setAttribute('alt', product.name);
       mv.setAttribute('ar', '');
-      mv.setAttribute('ar-modes', 'scene-viewer webxr quick-look');
+      mv.setAttribute('ar-modes', useBrowserAR ? 'webxr scene-viewer quick-look' : 'scene-viewer webxr quick-look');
       mv.setAttribute('ar-scale', 'auto');
       mv.setAttribute('touch-action', 'pan-y');
       mv.setAttribute('camera-controls', '');
       mv.setAttribute('shadow-intensity', '1');
       mv.innerHTML =
         '<div slot="poster" class="ar-poster">Menyiapkan pratinjau 3D...</div>' +
-        '<button slot="ar-button" class="ar-cta" style="display:none">Lihat dalam AR</button>';
+        '<button slot="ar-button" class="ar-cta" style="display:none">' + (useBrowserAR ? 'Lihat dalam AR (mode browser)' : 'Lihat dalam AR') + '</button>';
       mediaStage.appendChild(mv);
 
       var arBtn = mv.querySelector('.ar-cta');
-      mv.addEventListener('load', function () { arBtn.style.display = 'inline-flex'; });
+      var fallbackBtn = null;
+      if (isAndroid && !useBrowserAR) {
+        fallbackBtn = document.createElement('button');
+        fallbackBtn.type = 'button';
+        fallbackBtn.textContent = 'AR tidak terbuka? Coba mode browser';
+        fallbackBtn.style.cssText = 'position:absolute;top:12px;right:12px;z-index:2;display:none;' +
+          'padding:7px 12px;border:1px solid rgba(11,18,32,.18);border-radius:999px;background:rgba(255,255,255,.94);' +
+          'color:#0B1220;font-family:inherit;font-size:11px;font-weight:600;line-height:1.2;cursor:pointer;max-width:60%;text-align:center';
+        fallbackBtn.addEventListener('click', function () {
+          useBrowserAR = true;
+          renderMediaStage();
+        });
+        mediaStage.appendChild(fallbackBtn);
+      }
+      mv.addEventListener('load', function () {
+        arBtn.style.display = 'inline-flex';
+        if (fallbackBtn) fallbackBtn.style.display = 'block';
+      });
       mv.addEventListener('error', function () { renderStaticImage(variant.img, product.name); });
       renderOnboardHint('Geser untuk melihat 3D');
     } else {
