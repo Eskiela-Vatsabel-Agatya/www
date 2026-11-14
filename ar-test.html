@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
 <title>AR test</title>
-<!-- Same model-viewer version as portofolio/detail.html -->
-<script type="module" src="https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js"></script>
 <style>
   body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background: #f4f5f9; color: #111; }
   h1 { font-size: 20px; margin: 0 0 4px; }
-  p.note { margin: 0 0 16px; color: #555; font-size: 14px; }
+  p.note { margin: 0 0 12px; color: #555; font-size: 14px; }
+  .switch a { display: inline-block; margin: 0 8px 16px 0; padding: 8px 12px; border-radius: 8px; background: #fff; color: #2A57FF; text-decoration: none; border: 1px solid #ccd; font-size: 14px; }
+  .switch a.on { background: #2A57FF; color: #fff; }
   .card { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 16px; }
   .card h2 { font-size: 16px; margin: 0 0 4px; }
   .card code { font-size: 12px; word-break: break-all; color: #555; }
-  model-viewer { width: 100%; height: 260px; background: #eef0f5; border-radius: 8px; margin-top: 8px; }
+  model-viewer { width: 100%; height: 240px; background: #eef0f5; border-radius: 8px; margin-top: 8px; }
   .ar-btn { position: absolute; left: 12px; bottom: 12px; padding: 10px 16px; border-radius: 999px;
             border: 2px solid #2A57FF; background: #fff; color: #2A57FF; font-size: 15px; }
   .status { font-size: 13px; margin-top: 6px; }
@@ -23,17 +23,31 @@
 </head>
 <body>
 <h1>AR test</h1>
-<p class="note">Open in Chrome on Android. Wait for each model to load, then tap its AR button. Note which ones open in AR.</p>
-
+<p class="note" id="ver"></p>
+<div class="switch">
+  <a href="?v=old" id="vOld">Your site's version (3.4.0)</a>
+  <a href="?v=new" id="vNew">Newest model-viewer</a>
+</div>
+<p class="note">Open in Chrome on Android. Wait for "Loaded in the page.", then tap the AR button. Close AR before trying the next one.</p>
 <div id="list"></div>
 
 <script>
+  var useNew = new URLSearchParams(location.search).get('v') === 'new';
+  var lib = useNew
+    ? 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js'
+    : 'https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js';
+  document.getElementById(useNew ? 'vNew' : 'vOld').className = 'on';
+  document.getElementById('ver').textContent = 'Testing with: ' + (useNew ? 'newest model-viewer' : 'model-viewer 3.4.0 (same as your site)');
+  var s = document.createElement('script'); s.type = 'module'; s.src = lib; document.head.appendChild(s);
+
   var W = 'https://grizelle-3d.lunarcreativa.workers.dev/';
+  var SV = 'scene-viewer webxr quick-look';
   var tests = [
-    { n: 1, title: "Google's astronaut, from Google", src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb' },
-    { n: 2, title: 'Same astronaut, through your Worker', src: W + 'Astronaut.glb' },
-    { n: 3, title: 'Your pouch A003.glb, through your Worker', src: W + 'A003.glb' },
-    { n: 4, title: 'Your pouch re-exported without WebP (optional)', src: W + 'A003-jpg.glb' }
+    { n: 1, title: "Google's astronaut, from Google (Scene Viewer)", src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', modes: SV },
+    { n: 2, title: 'Same astronaut, through your Worker (Scene Viewer)', src: W + 'Astronaut.glb', modes: SV },
+    { n: 3, title: 'Your pouch A003.glb, through your Worker (Scene Viewer)', src: W + 'A003.glb', modes: SV },
+    { n: 4, title: 'Your pouch with JPEG textures (Scene Viewer)', src: W + 'A003-jpg.glb', modes: SV },
+    { n: 5, title: 'Your pouch, in-browser AR (WebXR, no Google app)', src: W + 'A003.glb', modes: 'webxr quick-look' }
   ];
   var list = document.getElementById('list');
   tests.forEach(function (t) {
@@ -41,11 +55,10 @@
     card.className = 'card';
     card.innerHTML = '<h2>' + t.n + '. ' + t.title + '</h2><code>' + t.src + '</code>';
     var mv = document.createElement('model-viewer');
-    // Same settings as js/detail.js
     mv.setAttribute('src', t.src);
     mv.setAttribute('alt', t.title);
     mv.setAttribute('ar', '');
-    mv.setAttribute('ar-modes', 'scene-viewer webxr quick-look');
+    mv.setAttribute('ar-modes', t.modes);
     mv.setAttribute('ar-scale', 'auto');
     mv.setAttribute('camera-controls', '');
     mv.setAttribute('touch-action', 'pan-y');
@@ -54,7 +67,7 @@
     status.className = 'status';
     status.textContent = 'Loading...';
     mv.addEventListener('load', function () { status.textContent = 'Loaded in the page.'; status.className = 'status ok'; });
-    mv.addEventListener('error', function () { status.textContent = 'Could not load in the page (file missing or blocked).'; status.className = 'status bad'; });
+    mv.addEventListener('error', function () { status.textContent = 'Could not load in the page (file missing or wrong name).'; status.className = 'status bad'; });
     mv.addEventListener('ar-status', function (e) {
       if (e.detail.status === 'failed') { status.textContent = 'AR launch failed.'; status.className = 'status bad'; }
     });
